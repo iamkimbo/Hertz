@@ -1,8 +1,8 @@
 """
 Hertz — Lab Manual Conversational Assistant
-Capabl Agent AI Program — Week 3
+Capabl Agent AI Program — Week 4
 Minimal Streamlit front-end. Full UI polish is a later-week deliverable;
-this just wires the Week 3 agent up to a chat interface so it can be
+this just wires the Week 4 agent up to a chat interface so it can be
 demoed and deployed on Streamlit Cloud.
 """
 
@@ -11,7 +11,7 @@ from agent import build_vectorstore, build_agent
 
 st.set_page_config(page_title="Hertz — Lab Manual Assistant", page_icon="🔬")
 st.title("🔬 Hertz — Lab Manual Conversational Assistant")
-st.caption("Week 3: procedure, theory, and safety-info tool-calling agent")
+st.caption("Week 4: procedure, theory, safety-info, and calculate — multi-tool agent")
 
 if "executor" not in st.session_state:
     st.session_state.executor = None
