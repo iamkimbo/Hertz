@@ -1,5 +1,5 @@
 """
-Hertz — Lab Manual Conversational Assistant — Agent Core (Week 4)
+Hertz — Lab Manual Conversational Assistant — Agent Core (Week 5)
 
 This is a genuine tool-calling AI AGENT, not a hardcoded RAG chain.
 
@@ -8,13 +8,13 @@ The difference matters:
   - An AGENT is given tools and DECIDES for itself whether to call a tool,
     which tool(s) to call, and what to do with the result, before answering.
 
-Week 1-2 shipped ONE tool (get_procedure). Week 3 added TWO more
-(explain_theory, get_safety_info). Week 4 adds the fourth and final Track A
-tool (calculate) and closes out the Week 3-4 milestone: a complete
-multi-tool agent that can combine tools for one question (e.g. "explain
-Experiment 3, list its safety precautions, and calculate the molarity for
-0.5 mol in 250 mL" triggers three separate tool calls, merged into one
-answer).
+Week 1-2: get_procedure. Week 3: explain_theory, get_safety_info.
+Week 4: calculate (closing the Week 3-4 "complete experiment understanding"
+milestone). Week 5 begins the Week 5-6 "Domain Specialization" milestone
+using Track A Option A2 (Comprehensive Experiment Guide): prelab_prep and
+postlab_report_help extend the assistant across the full experiment
+lifecycle — before, during, and after the lab session — not just the
+procedure itself.
 """
 
 import os
@@ -213,18 +213,90 @@ def make_calculate_tool():
     return calculate
 
 
+def make_prelab_prep_tool(vectorstore):
+    """
+    Factory for the pre-lab preparation tool (Week 5 — Option A2:
+    Comprehensive Experiment Guide specialization).
+    """
+
+    @tool
+    def prelab_prep(experiment_query: str) -> str:
+        """
+        Generates a pre-lab preparation checklist for an experiment: what
+        to read beforehand, what equipment/materials to bring, and what
+        background knowledge is assumed. Use this when the student asks
+        "what should I prepare before Experiment 3", "what do I need before
+        the lab session", or similar before-the-lab questions. Input should
+        be the experiment name or number.
+        """
+        results = vectorstore.similarity_search(
+            f"apparatus materials equipment required prerequisites {experiment_query}",
+            k=4,
+        )
+        if not results:
+            return "No matching pre-lab information was found in this manual."
+
+        context = "\n\n---\n\n".join(
+            f"[Source: page {doc.metadata.get('page', '?')}]\n{doc.page_content}"
+            for doc in results
+        )
+        return context
+
+    return prelab_prep
+
+
+def make_postlab_report_tool(vectorstore):
+    """
+    Factory for the post-lab report assistance tool (Week 5 — Option A2:
+    Comprehensive Experiment Guide specialization).
+    """
+
+    @tool
+    def postlab_report_help(experiment_query: str) -> str:
+        """
+        Retrieves what should go into the post-lab report/record for an
+        experiment: observations to note, expected results, and the
+        conclusion format expected in the manual. Use this when the
+        student asks about writing up the experiment, what to include in
+        the lab record, or what results/observations to note down. Input
+        should be the experiment name or number.
+        """
+        results = vectorstore.similarity_search(
+            f"observation result conclusion report record {experiment_query}",
+            k=4,
+        )
+        if not results:
+            return (
+                "No specific report/observation format was found in this manual "
+                "for that experiment. Advise the student to follow their "
+                "institution's standard lab record format."
+            )
+
+        context = "\n\n---\n\n".join(
+            f"[Source: page {doc.metadata.get('page', '?')}]\n{doc.page_content}"
+            for doc in results
+        )
+        return context
+
+    return postlab_report_help
+
+
 # ---------------------------------------------------------------------------
 # STEP 3: Build the actual AGENT (tool-calling loop, not a fixed chain)
 # ---------------------------------------------------------------------------
 
 SYSTEM_PROMPT = (
     "You are Hertz, a laboratory manual assistant for engineering students. "
-    "You have four tools available:\n"
+    "You have six tools available:\n"
     "- get_procedure: finds step-by-step experiment procedures\n"
     "- explain_theory: finds the theory/concept/principle behind an experiment\n"
     "- get_safety_info: finds safety precautions and hazards for an experiment\n"
     "- calculate: evaluates a numeric expression for unit conversions or "
-    "formula-based calculations\n\n"
+    "formula-based calculations\n"
+    "- prelab_prep: finds what to prepare/bring/know before starting an "
+    "experiment\n"
+    "- postlab_report_help: finds what observations/results/conclusion "
+    "format belongs in the lab report for an experiment\n\n"
     "Decide which tool(s) are relevant to the student's question — call more "
     "than one if the question genuinely needs it (e.g. a question asking for "
     "both the procedure and the safety precautions should call both tools). "
@@ -242,7 +314,7 @@ def build_agent(vectorstore):
     Creates a tool-calling agent backed by Gemini using LangChain's current
     create_agent API (a prebuilt LangGraph ReAct-style loop under the hood).
 
-    The LLM decides for itself which of the four tools (if any) to call
+    The LLM decides for itself which of the six tools (if any) to call
     based on the student's question — this is NOT a hardcoded router.
     """
     llm = ChatGoogleGenerativeAI(
@@ -256,6 +328,8 @@ def build_agent(vectorstore):
         make_explain_theory_tool(vectorstore),
         make_get_safety_info_tool(vectorstore),
         make_calculate_tool(),
+        make_prelab_prep_tool(vectorstore),
+        make_postlab_report_tool(vectorstore),
     ]
 
     agent = create_agent(
