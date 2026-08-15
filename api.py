@@ -19,12 +19,25 @@ import tempfile
 import uuid
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from agent import build_vectorstore, build_agent, ask_agent
 
 app = FastAPI(title="Hertz API", description="Lab Manual Conversational Assistant API")
+
+# Allow the frontend (deployed separately, e.g. on Vercel/Netlify) to call
+# this API from the browser. Wide open for coursework/demo purposes — if
+# this ever needs real access control, replace "*" with the actual
+# frontend origin(s).
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # In-memory session store: session_id -> agent executor
 # NOTE: this resets if the server restarts. Fine for a demo/coursework
