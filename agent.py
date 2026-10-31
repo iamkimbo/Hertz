@@ -1,5 +1,5 @@
 """
-Hertz — Lab Manual Conversational Assistant — Agent Core (Week 5)
+Lab Manual Conversational Assistant — Agent Core (Week 5)
 
 This is a genuine tool-calling AI AGENT, not a hardcoded RAG chain.
 
@@ -403,7 +403,7 @@ def make_pubchem_safety_tool():
 # ---------------------------------------------------------------------------
 
 SYSTEM_PROMPT = (
-    "You are Hertz, a laboratory manual assistant for engineering students. "
+    "You are Lab Manual, a laboratory manual assistant for engineering students. "
     "You have seven tools available:\n"
     "- get_procedure: finds step-by-step experiment procedures\n"
     "- explain_theory: finds the theory/concept/principle behind an experiment\n"

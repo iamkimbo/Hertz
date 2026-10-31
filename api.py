@@ -1,5 +1,5 @@
 """
-Hertz — API Layer (Week 6)
+Lab Manual — API Layer (Week 6)
 
 Exposes the existing agent (agent.py — unchanged) as real HTTP endpoints,
 in addition to the Streamlit UI in app.py. Same agent, same tools —
@@ -25,7 +25,7 @@ from pydantic import BaseModel
 
 from agent import build_vectorstore, build_agent, ask_agent
 
-app = FastAPI(title="Hertz API", description="Lab Manual Conversational Assistant API")
+app = FastAPI(title="Lab Manual API", description="Lab Manual Conversational Assistant API")
 
 # Allow the frontend (deployed separately, e.g. on Vercel/Netlify) to call
 # this API from the browser. Wide open for coursework/demo purposes — if
@@ -57,7 +57,7 @@ class AskResponse(BaseModel):
 @app.get("/health")
 def health():
     """Simple health check endpoint."""
-    return {"status": "ok", "service": "hertz-api"}
+    return {"status": "ok", "service": "lab-manual-api"}
 
 
 @app.post("/upload")

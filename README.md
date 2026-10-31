@@ -1,4 +1,4 @@
-# Hertz — Lab Manual Conversational Assistant
+# Lab Manual Conversational Assistant
 
 **Capabl Agent AI Program — Week 7 Submission**
 **Team:** Rakim & Saif
@@ -53,7 +53,7 @@ This was a deliberate choice given the timeline: it's lower-risk (fewer
 moving parts to break during a live demo) and both are independently
 provable as working. The tradeoff is that they're not "integrated" in the
 literal network-call sense. If asked in the viva: the API exists so
-Hertz's agent can be used by *other* tools/services outside Streamlit
+Lab Manual's agent can be used by *other* tools/services outside Streamlit
 (e.g. a future mobile app, or another team's system) — not because the
 Streamlit UI depends on it.
 

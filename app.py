@@ -1,5 +1,5 @@
 """
-Hertz — Lab Manual Conversational Assistant — Streamlit UI (Week 7)
+Lab Manual Conversational Assistant — Streamlit UI (Week 7)
 
 Upload a lab manual PDF, then ask it questions like:
     "What is the procedure of Experiment 3?"
@@ -23,7 +23,7 @@ import streamlit as st
 from agent import build_vectorstore, build_agent, ask_agent
 
 st.set_page_config(
-    page_title="Hertz — Lab Manual Assistant",
+    page_title="Lab Manual Assistant",
     page_icon="🔬",
     layout="centered",
     initial_sidebar_state="expanded",
@@ -34,7 +34,7 @@ st.markdown(
     """
     <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0;">
         <span style="font-size:2.1rem;">🔬</span>
-        <span style="font-size:1.9rem; font-weight:700; color:#1B2A2A;">Hertz</span>
+        <span style="font-size:1.9rem; font-weight:700; color:#1B2A2A;">Lab Manual</span>
     </div>
     <p style="color:#5B6B6B; margin-top:0.1rem; margin-bottom:1.2rem; font-size:0.95rem;">
         Ask your lab manual anything — procedures, theory, safety, calculations, prep, or reports.
@@ -45,7 +45,7 @@ st.markdown(
 
 # --- Sidebar: capabilities + example questions ---------------------------
 with st.sidebar:
-    st.markdown("### What Hertz can help with")
+    st.markdown("### What Lab Manual can help with")
     st.markdown(
         "- 📋 **Procedure** — step-by-step instructions\n"
         "- 📖 **Theory** — the concept behind an experiment\n"

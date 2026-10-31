@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Hertz — a conversational AI agent that answers questions about an uploaded
+Lab Manual — a conversational AI agent that answers questions about an uploaded
 lab manual PDF (procedures, theory, safety, calculations, pre-lab prep,
 post-lab reports). Built for the Capabl Agent AI Program coursework
 (Week 7 submission).
