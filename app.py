@@ -26,7 +26,7 @@ st.set_page_config(
     page_title="Lab Manual Assistant",
     page_icon="🔬",
     layout="centered",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # --- Header -------------------------------------------------------------
@@ -42,34 +42,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-# --- Sidebar: capabilities + example questions ---------------------------
-with st.sidebar:
-    st.markdown("### What Lab Manual can help with")
-    st.markdown(
-        "- 📋 **Procedure** — step-by-step instructions\n"
-        "- 📖 **Theory** — the concept behind an experiment\n"
-        "- ⚠️ **Safety** — precautions and hazards\n"
-        "- 🧮 **Calculations** — unit conversions, formulas\n"
-        "- 🎒 **Pre-lab prep** — what to bring/know beforehand\n"
-        "- 📝 **Post-lab report** — what to note for your write-up\n"
-    )
-    st.divider()
-    st.markdown("### Try asking")
-    example_questions = [
-        "What is the procedure of Experiment 3?",
-        "Explain the theory behind Experiment 3",
-        "What safety precautions should I take?",
-        "What should I prepare before this experiment?",
-        "What should I note down for the lab report?",
-    ]
-    clicked_example = None
-    for eq in example_questions:
-        if st.button(eq, use_container_width=True):
-            clicked_example = eq
-
-    st.divider()
-    st.caption("Built by Rakim & Saif · Capabl Agent AI Program")
+st.caption("Built by Rakim & Saif · Capabl Agent AI Program")
 
 # --- API key handling -----------------------------------------------------
 api_key = os.environ.get("GOOGLE_API_KEY") or st.session_state.get("api_key", "")
@@ -132,7 +105,7 @@ if st.session_state.agent is not None:
     if not st.session_state.chat_history:
         st.markdown(
             "<p style='color:#5B6B6B; font-size:0.9rem;'>"
-            "No questions yet — type one below, or click an example in the sidebar."
+            "No questions yet — type one below."
             "</p>",
             unsafe_allow_html=True,
         )
@@ -145,10 +118,6 @@ if st.session_state.agent is not None:
     user_question = st.chat_input(
         "e.g. What should I prepare before Experiment 3, and what should I note for the report?"
     )
-
-    # An example-question button click counts the same as typing + submitting
-    if clicked_example and not user_question:
-        user_question = clicked_example
 
     if user_question:
         st.session_state.chat_history.append(("user", user_question))
