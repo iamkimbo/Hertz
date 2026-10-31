@@ -34,9 +34,9 @@ st.markdown(
     """
     <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0;">
         <span style="font-size:2.1rem;">🔬</span>
-        <span style="font-size:1.9rem; font-weight:700; color:#1B2A2A;">Lab Manual</span>
+        <span style="font-size:1.9rem; font-weight:700; color:#E6EEEC;">Lab Manual</span>
     </div>
-    <p style="color:#5B6B6B; margin-top:0.1rem; margin-bottom:1.2rem; font-size:0.95rem;">
+    <p style="color:#9DB0AC; margin-top:0.1rem; margin-bottom:1.2rem; font-size:0.95rem;">
         Ask your lab manual anything — procedures, theory, safety, calculations, prep, or reports.
     </p>
     """,
@@ -104,7 +104,7 @@ if st.session_state.agent is not None:
 
     if not st.session_state.chat_history:
         st.markdown(
-            "<p style='color:#5B6B6B; font-size:0.9rem;'>"
+            "<p style='color:#9DB0AC; font-size:0.9rem;'>"
             "No questions yet — type one below."
             "</p>",
             unsafe_allow_html=True,
@@ -135,13 +135,13 @@ if st.session_state.agent is not None:
 else:
     st.markdown(
         """
-        <div style="text-align:center; padding: 2.5rem 1rem; background:#EEF3F1;
+        <div style="text-align:center; padding: 2.5rem 1rem; background:#1A2828;
                     border-radius:12px; margin-top:1rem;">
             <div style="font-size:2.4rem;">📄</div>
-            <p style="color:#1B2A2A; font-weight:600; margin:0.4rem 0 0.2rem 0;">
+            <p style="color:#E6EEEC; font-weight:600; margin:0.4rem 0 0.2rem 0;">
                 No manual loaded yet
             </p>
-            <p style="color:#5B6B6B; font-size:0.9rem; margin:0;">
+            <p style="color:#9DB0AC; font-size:0.9rem; margin:0;">
                 Upload a lab manual PDF above to start asking questions.
             </p>
         </div>
